@@ -42,8 +42,8 @@ class RouteSearchServiceTest {
     }
 
     @CsvSource(value = {
-            "양재역, 교대역, 3, 4, 11",
-            "교대역, 양재역, 3, 4, 11"
+            "양재역, 교대역, 3, 9, 7",
+            "교대역, 양재역, 3, 9, 7"
     })
     @ParameterizedTest
     void 최단시간기준으로_경로를_올바르게_탐색한다(String departure, String arrival, int size, int distance, int arrivalTime) {
@@ -69,4 +69,23 @@ class RouteSearchServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(SAME_DEPARTURE_AND_ARRIVAL_STATION.getValue());
     }
+
+//    @Test
+//    void 출발역에서_도착역으로_이동할수없다면_예외가_발생한다() {
+//        //given
+//        Line testLine = new Line("test");
+//        Station testStation = new Station("testStation");
+//        testLine.addStation(testStation, null);
+//
+//        StationRepository.addStation(testStation);
+//        LineRepository.addLine(testLine);
+//
+//        String departure = "testStation";
+//        String arrival = "교대역";
+//        //when then
+//        assertThatThrownBy(() -> new RouteSearchService().searchRoute(new Station(departure),
+//                new Station(arrival), RouteSearchCriteria.SHORTEST_DISTANCE))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessageContaining(DISCONNECTED_DEPARTURE_TO_ARRIVAL_STATION.getValue());
+//    }
 }

@@ -1,5 +1,6 @@
 package subway.service;
 
+import static subway.exception.ErrorMessage.DISCONNECTED_DEPARTURE_TO_ARRIVAL_STATION;
 import static subway.exception.ErrorMessage.SAME_DEPARTURE_AND_ARRIVAL_STATION;
 
 import java.util.List;
@@ -42,6 +43,9 @@ public class RouteSearchService {
         DijkstraShortestPath<Station, DefaultWeightedEdge> graphByMinimumArrivalTime
                 = graphCreator.getGraphByMinimumArrivalTime();
         List<Station> stations = graphByMinimumArrivalTime.getPath(departure, arrival).getVertexList();
+        if (stations.isEmpty()) {
+            throw new IllegalArgumentException(DISCONNECTED_DEPARTURE_TO_ARRIVAL_STATION.getValue());
+        }
 
         return calculateRouteSearchResult(stations);
     }

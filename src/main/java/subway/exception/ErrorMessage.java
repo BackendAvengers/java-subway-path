@@ -4,7 +4,8 @@ public enum ErrorMessage {
     INVALID_ACTION_SIGNAL_INPUT("해당 기능은 존재하지 않습니다."),
     INVALID_ROUTE_SEARCH_CRITERIA_SIGNAL_INPUT("해당 경로 기준은 존재하지 않습니다."),
     NON_EXIST_STATION("해당 역은 존재하지 않습니다."),
-    SAME_DEPARTURE_AND_ARRIVAL_STATION("출발역과 도착역이 동일합니다.");
+    SAME_DEPARTURE_AND_ARRIVAL_STATION("출발역과 도착역이 동일합니다."),
+    DISCONNECTED_DEPARTURE_TO_ARRIVAL_STATION("출발역에서 도착역으로 이동할 수 없습니다.");
 
     private static final String PREFIX = "[ERROR] ";
     private final String value;

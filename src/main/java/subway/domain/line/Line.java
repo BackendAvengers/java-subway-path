@@ -41,11 +41,13 @@ public class Line {
 
     public Optional<StationCost> findStationCost(Station departure, Station arrival) {
         List<Station> allStations = getAllStations();
-        if (isNext(departure, arrival, allStations)) {
-            return Optional.of(stationCost.get(departure));
-        }
-        if (isPrevious(departure, arrival, allStations)) {
-            return Optional.of(stationCost.get(arrival));
+        if (stationCost.containsKey(departure) && stationCost.containsKey(arrival)) {
+            if (isNext(departure, arrival, allStations)) {
+                return Optional.of(stationCost.get(departure));
+            }
+            if (isPrevious(departure, arrival, allStations)) {
+                return Optional.of(stationCost.get(arrival));
+            }
         }
         return Optional.empty();
     }
