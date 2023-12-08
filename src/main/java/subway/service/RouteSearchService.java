@@ -34,20 +34,23 @@ public class RouteSearchService {
     private RouteSearchResultDto searchRouteByShortestDistance(Station departure, Station arrival) {
         DijkstraShortestPath<Station, DefaultWeightedEdge> graphByShortestDistance =
                 graphCreator.getGraphByShortestDistance();
-        List<Station> stations = graphByShortestDistance.getPath(departure, arrival).getVertexList();
-
-        return calculateRouteSearchResult(stations);
+        try {
+            List<Station> stations = graphByShortestDistance.getPath(departure, arrival).getVertexList();
+            return calculateRouteSearchResult(stations);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException(DISCONNECTED_DEPARTURE_TO_ARRIVAL_STATION.getValue());
+        }
     }
 
     private RouteSearchResultDto searchRouteByMinimumArrivalTime(Station departure, Station arrival) {
         DijkstraShortestPath<Station, DefaultWeightedEdge> graphByMinimumArrivalTime
                 = graphCreator.getGraphByMinimumArrivalTime();
-        List<Station> stations = graphByMinimumArrivalTime.getPath(departure, arrival).getVertexList();
-        if (stations.isEmpty()) {
+        try {
+            List<Station> stations = graphByMinimumArrivalTime.getPath(departure, arrival).getVertexList();
+            return calculateRouteSearchResult(stations);
+        } catch (NullPointerException e) {
             throw new IllegalArgumentException(DISCONNECTED_DEPARTURE_TO_ARRIVAL_STATION.getValue());
         }
-
-        return calculateRouteSearchResult(stations);
     }
 
     private List<StationCost> getStationCosts(List<Station> stations) {
