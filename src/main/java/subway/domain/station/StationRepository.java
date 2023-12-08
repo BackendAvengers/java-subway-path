@@ -23,6 +23,12 @@ public class StationRepository {
                 .findFirst();
     }
 
+    public Optional<Station> findStation(String name) {
+        return stations.stream()
+                .filter(station -> station.getName().equals(name))
+                .findFirst();
+    }
+
     public static boolean deleteStation(String name) {
         return stations.removeIf(station -> Objects.equals(station.getName(), name));
     }
