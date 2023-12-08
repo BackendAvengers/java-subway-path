@@ -6,9 +6,9 @@ import subway.domain.station.Station;
 import subway.domain.station.StationCost;
 import subway.domain.station.StationRepository;
 
-public class InitialSet {
+public class StationDataLoader {
 
-    private InitialSet() {
+    private StationDataLoader() {
     }
 
     public static void saveAllStations() {

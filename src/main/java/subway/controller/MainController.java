@@ -8,6 +8,8 @@ import subway.controller.constants.Feature;
 import subway.controller.constants.RouteSearchCriteria;
 import subway.domain.station.Station;
 import subway.domain.station.StationRepository;
+import subway.dto.RouteSearchResultDto;
+import subway.service.RouteSearchService;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -15,6 +17,7 @@ public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
     private final StationRepository stationRepository;
+    private final RouteSearchService routeSearchService = new RouteSearchService();
 
     public MainController(InputView inputView, OutputView outputView, StationRepository stationRepository) {
         this.inputView = inputView;
@@ -35,10 +38,9 @@ public class MainController {
                     continue;
                 }
 
-                Station departureStation = getDepartureStation();
-                Station arrivalStation = getArrivalStation();
-
-
+                Station departure = getDepartureStation();
+                Station arrival = getArrivalStation();
+                showRoute(departure, arrival, routeSearchCriteria);
             }
         } catch (Exception e) {
             outputView.outputMessage(e.getMessage());
@@ -68,5 +70,11 @@ public class MainController {
         String arrivalStationName = inputView.inputArrivalStation();
         return stationRepository.findStation(arrivalStationName)
                 .orElseThrow(() -> new IllegalArgumentException(NON_EXIST_STATION.getValue(arrivalStationName)));
+    }
+
+    private void showRoute(Station departure, Station arrival, RouteSearchCriteria routeSearchCriteria) {
+        RouteSearchResultDto routeSearchResultDto =
+                routeSearchService.searchRoute(departure, arrival, routeSearchCriteria);
+        outputView.outputRouteSearchResult(routeSearchResultDto);
     }
 }
