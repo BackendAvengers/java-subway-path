@@ -3,19 +3,19 @@ package subway.controller.constants;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum FeatureSignal {
+public enum Feature {
     SEARCH_ROUTE("1"),
     QUIT("Q");
 
-    private final String value;
+    private final String signal;
 
-    FeatureSignal(String value) {
-        this.value = value;
+    Feature(String signal) {
+        this.signal = signal;
     }
 
-    public static Optional<FeatureSignal> findFeatureSignal(String input) {
+    public static Optional<Feature> findFeatureSignal(String input) {
         return Arrays.stream(values())
-                .filter(signal -> signal.value.equals(input))
+                .filter(feature -> feature.signal.equals(input))
                 .findFirst();
     }
 

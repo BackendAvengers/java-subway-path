@@ -1,8 +1,10 @@
 package subway.controller;
 
 import static subway.exception.ErrorMessage.INVALID_FEATURE_SIGNAL_INPUT;
+import static subway.exception.ErrorMessage.INVALID_ROUTE_SEARCH_CRITERIA_SIGNAL_INPUT;
 
-import subway.controller.constants.FeatureSignal;
+import subway.controller.constants.Feature;
+import subway.controller.constants.RouteSearchCriteria;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -18,10 +20,16 @@ public class MainController {
     public void run() {
         try {
             while (true) {
-                FeatureSignal featureSignal = selectFeatureOrQuit();
-                if (featureSignal.isQuit()) {
+                Feature feature = selectFeatureOrQuit();
+                if (feature.isQuit()) {
                     break;
                 }
+
+                RouteSearchCriteria routeSearchCriteria = selectRouteSearchCriteria();
+                if (routeSearchCriteria.isBack()) {
+                    continue;
+                }
+
 
             }
         } catch (Exception e) {
@@ -29,9 +37,16 @@ public class MainController {
         }
     }
 
-    private FeatureSignal selectFeatureOrQuit() {
+    private Feature selectFeatureOrQuit() {
         String signal = inputView.inputMainFeature();
-        return FeatureSignal.findFeatureSignal(signal)
+        return Feature.findFeatureSignal(signal)
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_FEATURE_SIGNAL_INPUT.getValue(signal)));
+    }
+
+    private RouteSearchCriteria selectRouteSearchCriteria() {
+        String signal = inputView.inputRouteSearchCriteria();
+        return RouteSearchCriteria.findRouteSearchCriteria(signal)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        INVALID_ROUTE_SEARCH_CRITERIA_SIGNAL_INPUT.getValue(signal)));
     }
 }
