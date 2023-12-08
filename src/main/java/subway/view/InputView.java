@@ -17,12 +17,23 @@ public class InputView {
         return reader.readLine();
     }
 
-    public String inputFindRouteSignal() {
+    public String inputMainFeature() {
         return inputWithMessage("""
                 ## 메인 화면
                 1. 경로 조회
                 Q. 종료
                                 
+                ## 원하는 기능을 선택하세요.
+                """);
+    }
+
+    public String inputRouteSearchCriteria() {
+        return inputWithMessage("""
+                ## 경로 기준
+                1. 최단 거리
+                2. 최소 시간
+                B. 돌아가기
+
                 ## 원하는 기능을 선택하세요.
                 """);
     }
