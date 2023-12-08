@@ -37,4 +37,16 @@ public class InputView {
                 ## 원하는 기능을 선택하세요.
                 """);
     }
+
+    public String inputDepartureStation() {
+        return inputWithMessage("""
+                ## 출발역을 입력하세요.
+                """);
+    }
+
+    public String inputArrivalStation() {
+        return inputWithMessage("""
+                ## 도착역을 입력하세요.
+                """);
+    }
 }
