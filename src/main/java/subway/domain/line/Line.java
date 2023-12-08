@@ -23,8 +23,12 @@ public class Line {
         this.stationCost.put(station, stationCost);
     }
 
-    private static boolean isAdjacent(Station departure, Station arrival, List<Station> allStations) {
-        return allStations.indexOf(arrival) == allStations.indexOf(departure) + 1;
+    private static boolean isNext(Station departure, Station arrival, List<Station> allStations) {
+        return allStations.indexOf(arrival) - allStations.indexOf(departure) == 1;
+    }
+
+    private static boolean isPrevious(Station departure, Station arrival, List<Station> allStations) {
+        return allStations.indexOf(arrival) - allStations.indexOf(departure) == -1;
     }
 
     public List<Station> getAllStations() {
@@ -37,8 +41,11 @@ public class Line {
 
     public Optional<StationCost> findStationCost(Station departure, Station arrival) {
         List<Station> allStations = getAllStations();
-        if (isAdjacent(departure, arrival, allStations)) {
+        if (isNext(departure, arrival, allStations)) {
             return Optional.of(stationCost.get(departure));
+        }
+        if (isPrevious(departure, arrival, allStations)) {
+            return Optional.of(stationCost.get(arrival));
         }
         return Optional.empty();
     }

@@ -18,6 +18,6 @@ public enum ErrorMessage {
     }
 
     public String getValue(Object arg) {
-        return getValue() + ": " + arg;
+        return getValue() + " : " + arg;
     }
 }

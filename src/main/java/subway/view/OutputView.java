@@ -43,7 +43,7 @@ public class OutputView {
                 joinWithPrefix(prefix, String.format("총 거리: %,dkm", distance)),
                 joinWithPrefix(prefix, String.format("총 소요 시간: %,d분", arrivalTime)),
                 joinWithPrefix(prefix, "---"),
-                stationsMessage) + LINE_SEPARATOR;
+                stationsMessage);
     }
 
     public void outputMessage(String message) {

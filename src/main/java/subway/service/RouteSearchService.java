@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
 import subway.controller.constants.RouteSearchCriteria;
 import subway.domain.line.LineRepository;
 import subway.domain.station.Station;
@@ -30,15 +31,17 @@ public class RouteSearchService {
     }
 
     private RouteSearchResultDto searchRouteByShortestDistance(Station departure, Station arrival) {
-        DijkstraShortestPath dijkstraShortestPath = graphCreator.getGraphByShortestDistance();
-        List<Station> stations = dijkstraShortestPath.getPath(departure, arrival).getVertexList();
+        DijkstraShortestPath<Station, DefaultWeightedEdge> graphByShortestDistance =
+                graphCreator.getGraphByShortestDistance();
+        List<Station> stations = graphByShortestDistance.getPath(departure, arrival).getVertexList();
 
         return calculateRouteSearchResult(stations);
     }
 
     private RouteSearchResultDto searchRouteByMinimumArrivalTime(Station departure, Station arrival) {
-        DijkstraShortestPath dijkstraShortestPath = graphCreator.getGraphByMinimumArrivalTime();
-        List<Station> stations = dijkstraShortestPath.getPath(departure, arrival).getVertexList();
+        DijkstraShortestPath<Station, DefaultWeightedEdge> graphByMinimumArrivalTime
+                = graphCreator.getGraphByMinimumArrivalTime();
+        List<Station> stations = graphByMinimumArrivalTime.getPath(departure, arrival).getVertexList();
 
         return calculateRouteSearchResult(stations);
     }

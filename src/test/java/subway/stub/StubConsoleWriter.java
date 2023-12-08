@@ -7,7 +7,7 @@ public class StubConsoleWriter extends ConsoleWriter {
 
     @Override
     public void writeLine(String message) {
-        output = message;
+        output = message + System.lineSeparator();
     }
 
     public String getOutput() {
