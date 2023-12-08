@@ -1,10 +1,10 @@
 package subway.controller;
 
-import static subway.exception.ErrorMessage.INVALID_FEATURE_SIGNAL_INPUT;
+import static subway.exception.ErrorMessage.INVALID_ACTION_SIGNAL_INPUT;
 import static subway.exception.ErrorMessage.INVALID_ROUTE_SEARCH_CRITERIA_SIGNAL_INPUT;
 import static subway.exception.ErrorMessage.NON_EXIST_STATION;
 
-import subway.controller.constants.Feature;
+import subway.controller.constants.Action;
 import subway.controller.constants.RouteSearchCriteria;
 import subway.domain.station.Station;
 import subway.domain.station.StationRepository;
@@ -28,29 +28,40 @@ public class MainController {
     public void run() {
         try {
             while (true) {
-                Feature feature = selectFeatureOrQuit();
-                if (feature.isQuit()) {
+                Action action = selectAction();
+                if (action.isQuit()) {
                     break;
                 }
 
-                RouteSearchCriteria routeSearchCriteria = selectRouteSearchCriteria();
-                if (routeSearchCriteria.isBack()) {
-                    continue;
-                }
-
-                Station departure = getDepartureStation();
-                Station arrival = getArrivalStation();
-                showRoute(departure, arrival, routeSearchCriteria);
+                searchRoute();
             }
         } catch (Exception e) {
             outputView.outputMessage(e.getMessage());
         }
     }
 
-    private Feature selectFeatureOrQuit() {
-        String signal = inputView.inputMainFeature();
-        return Feature.findFeatureSignal(signal)
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_FEATURE_SIGNAL_INPUT.getValue(signal)));
+    private Action selectAction() {
+        String signal = inputView.inputMainAction();
+        return Action.findAction(signal)
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_ACTION_SIGNAL_INPUT.getValue(signal)));
+    }
+
+    private void searchRoute() {
+
+        while (true) {
+            try {
+                RouteSearchCriteria routeSearchCriteria = selectRouteSearchCriteria();
+                if (routeSearchCriteria.isBack()) {
+                    break;
+                }
+
+                Station departure = getDepartureStation();
+                Station arrival = getArrivalStation();
+                showRoute(departure, arrival, routeSearchCriteria);
+            } catch (IllegalArgumentException e) {
+                outputView.outputMessage(e.getMessage());
+            }
+        }
     }
 
     private RouteSearchCriteria selectRouteSearchCriteria() {

@@ -17,7 +17,7 @@ public class InputView {
         return reader.readLine();
     }
 
-    public String inputMainFeature() {
+    public String inputMainAction() {
         return inputWithMessage("""
                 ## 메인 화면
                 1. 경로 조회
